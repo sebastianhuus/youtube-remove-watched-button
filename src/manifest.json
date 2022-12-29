@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "nah",
+  "description": "Makes the youtube video not interested button easier to click.",
+  "version": "1.0",
+  "content_scripts" : [
+    {
+      "matches": ["https://*.youtube.com/*"],
+      "js": ["nah.js"]
+    }
+  ]
+}
