@@ -8,6 +8,7 @@ Tell Youtube in one-click this video is not interesting.
 <img src="img/after.jpg" width=300 />
 
 ## install
-1. Navigate to `chrome://extensions`
-1. Click `Load unpacked` button
-1. Select `src/` folder path
+1. Zip the contents of the `src/` folder
+1. Navigate to `about:debugging#/runtime/this-firefox`
+1. Click `Load Temporary Add-on...` button
+1. Select the `zip` file created in step 1
