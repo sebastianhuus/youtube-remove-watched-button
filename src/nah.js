@@ -8,9 +8,7 @@ const baseStyles = `
 <style>
     .nah-btn {
         position: absolute;
-        top: 45px;
         right: 0px;
-        padding: 7px 0 7px 7px;
         background: none;
         border: none;
         cursor: pointer;
@@ -20,19 +18,14 @@ const baseStyles = `
         opacity: 1;
     }
 
-    .nah-btn-channel {
-        position: absolute;
+    .btn-top {
+        top: 45px;
+    }
+
+    .btn-bottom {
         top: 65px;
-        right: 0px;
-        padding: 7px 0 7px 7px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        opacity: 0.5;
     }
-    .nah-btn-channel:hover {
-        opacity: 1;
-    }
+
     .hide-popup {
         opacity: 0;
         display: none;
@@ -44,12 +37,12 @@ function addNahBtns(videoBoxSelector) {
     let btnsToAdd = [
         {
             onClick: actionNah(6), // not interested is 6th in popup menu list
-            cssClass: "nah-btn",
+            cssClass: "btn-top",
             textContent: "👎",
         },
         {
             onClick: actionNah(7), // dont recommend channel is 7th in popup menu list
-            cssClass: "nah-btn-channel",
+            cssClass: "btn-bottom",
             textContent: "❌",
         },
     ];
@@ -66,6 +59,7 @@ function addNahBtns(videoBoxSelector) {
                         return; // if this vidBox has buttons already, can return early
 
                     let button = document.createElement("button");
+                    button.classList.add("nah-btn");
                     button.classList.add(btnToAdd.cssClass);
                     button.textContent = btnToAdd.textContent;
                     button.onclick = btnToAdd.onClick;
