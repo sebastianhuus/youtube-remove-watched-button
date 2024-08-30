@@ -1,6 +1,6 @@
 # **nah**
 
-Tell Youtube in one-click this video is not interesting.
+Tell Youtube in one click this video or channel is not interesting.
 
 [Install for Firefox](https://addons.mozilla.org/en-US/firefox/addon/youtube-not-interested-button/)
 
@@ -14,7 +14,16 @@ Tell Youtube in one-click this video is not interesting.
 
 ## install
 
+### Firefox
+
 1. Zip the contents of the `src/` folder
 1. Navigate to `about:debugging#/runtime/this-firefox`
 1. Click `Load Temporary Add-on...` button
 1. Select the `zip` file created in step 1
+
+### Chrome
+
+1. Checkout the `master-chrome` branch
+1. Navigate to chrome://extensions
+1. Click Load unpacked button
+1. Select src/ folder path
