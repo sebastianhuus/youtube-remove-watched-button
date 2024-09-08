@@ -1,18 +1,20 @@
-# **nah**
+# **Nah - Youtube Not Interested Button**
 
 Tell Youtube in one click this video or channel is not interesting.
 
 [Install for Firefox](https://addons.mozilla.org/en-US/firefox/addon/youtube-not-interested-button/)
+[Install for Chrome](https://chromewebstore.google.com/detail/nah/jlceoenebonplbmbdmpcmjipmnhbpema)
 
-## **before in 2 steps**
+
+## **Before: 2 steps**
 
 <img src="img/before.jpg" width=300 />
 
-## **after in 1 step**
+## **after: 1 step**
 
 <img src="img/after.jpg" width=300 />
 
-## install
+## Manual Install
 
 ### Firefox
 
