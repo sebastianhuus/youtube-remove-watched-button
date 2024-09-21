@@ -33,6 +33,18 @@ const baseStyles = `
 </style>`;
 document.head.insertAdjacentHTML("beforeend", baseStyles);
 
+// browser compatibility
+const storage =
+    typeof browser !== "undefined" ? browser.storage : chrome.storage;
+
+function logger(message) {
+    storage.sync.get("isDebuggingEnabled", function (data) {
+        if (data.isDebuggingEnabled) {
+            console.log("nah -", message);
+        }
+    });
+}
+
 function addNahBtns(videoBoxSelector) {
     let btnsToAdd = [
         {
@@ -85,9 +97,23 @@ function actionNah(cssChildNum) {
 
         // ..wait for popup to render
         setTimeout(function () {
+            // show list of nodes in popup for debugging
+            const popupNode = popupWrapper.querySelector(
+                `ytd-menu-popup-renderer #items`
+            );
+            if (popupNode) {
+                const textContent = Array.from(popupNode.childNodes).map(
+                    (childNode) => {
+                        return childNode.textContent.trim();
+                    }
+                );
+                logger(textContent);
+            }
+
             let notInterestedBtn = popupWrapper.querySelector(
                 `ytd-menu-popup-renderer #items > ytd-menu-service-item-renderer:nth-child(${cssChildNum})`
             );
+
             if (notInterestedBtn) notInterestedBtn.click();
             popupWrapper.classList.remove("hide-popup");
         }, 10);
