@@ -49,10 +49,10 @@ function getFromStorage(key) {
     });
 }
 
-async function logger(message) {
+async function logger(...data) {
     const isDebuggingEnabled = await getFromStorage("isDebuggingEnabled");
     if (isDebuggingEnabled) {
-        console.log("nah -", message);
+        console.log("nah -", ...data);
     }
 }
 
@@ -129,7 +129,10 @@ function actionNah(cssChildNum) {
                 `ytd-menu-popup-renderer #items > ytd-menu-service-item-renderer:nth-child(${cssChildNum})`
             );
 
-            if (notInterestedBtn) notInterestedBtn.click();
+            if (notInterestedBtn) {
+                logger("clicking", notInterestedBtn.textContent.trim());
+                notInterestedBtn.click();
+            }
             popupWrapper.classList.remove("hide-popup");
         }, 10);
 
