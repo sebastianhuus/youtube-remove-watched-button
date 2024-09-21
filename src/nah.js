@@ -1,5 +1,5 @@
 // keep running so when new videos appear, ie. on page scroll, we add button to them as well
-setInterval(function () {
+setInterval(() => {
     addNahBtns("ytd-rich-grid-media #details");
     addNahBtns("ytd-compact-video-renderer #dismissible .details");
 }, 2000);
@@ -37,46 +37,61 @@ document.head.insertAdjacentHTML("beforeend", baseStyles);
 const storage =
     typeof browser !== "undefined" ? browser.storage : chrome.storage;
 
-function logger(message) {
-    storage.sync.get("isDebuggingEnabled", function (data) {
-        if (data.isDebuggingEnabled) {
-            console.log("nah -", message);
-        }
+function getFromStorage(key) {
+    return new Promise((resolve, reject) => {
+        storage.sync.get(key, (result) => {
+            if (chrome.runtime.lastError) {
+                reject(chrome.runtime.lastError);
+            } else {
+                resolve(result[key]);
+            }
+        });
     });
 }
 
-function addNahBtns(videoBoxSelector) {
-    let btnsToAdd = [
-        {
-            onClick: actionNah(6), // not interested is 6th in popup menu list
-            cssClass: "btn-top",
-            textContent: "👎",
-        },
-        {
-            onClick: actionNah(7), // dont recommend channel is 7th in popup menu list
-            cssClass: "btn-bottom",
-            textContent: "❌",
-        },
-    ];
+async function logger(message) {
+    const isDebuggingEnabled = await getFromStorage("isDebuggingEnabled");
+    if (isDebuggingEnabled) {
+        console.log("nah -", message);
+    }
+}
+
+async function addNahBtns(videoBoxSelector) {
+    const nahButton = {
+        onClick: actionNah(6), // not interested is 6th in popup menu list
+        cssClass: "btn-top",
+        textContent: "👎",
+    };
+    const channelButton = {
+        onClick: actionNah(7), // dont recommend channel is 7th in popup menu list
+        cssClass: "btn-bottom",
+        textContent: "❌",
+    };
+    const btnsToAdd = [];
+    const shouldHideNahButton = await getFromStorage("shouldHideNahButton");
+    const shouldHideChannelButton = await getFromStorage(
+        "shouldHideChannelButton"
+    );
+    if (!shouldHideNahButton) {
+        btnsToAdd.push(nahButton);
+    }
+    if (!shouldHideChannelButton) {
+        btnsToAdd.push(channelButton);
+    }
 
     try {
         for (const btnToAdd of btnsToAdd) {
-            document
-                .querySelectorAll(videoBoxSelector)
-                .forEach(function (vidBox) {
-                    if (
-                        vidBox.querySelector(`button.${btnToAdd.cssClass}`) !=
-                        null
-                    )
-                        return; // if this vidBox has buttons already, can return early
+            document.querySelectorAll(videoBoxSelector).forEach((vidBox) => {
+                if (vidBox.querySelector(`button.${btnToAdd.cssClass}`) != null)
+                    return; // if this vidBox has buttons already, can return early
 
-                    let button = document.createElement("button");
-                    button.classList.add("nah-btn");
-                    button.classList.add(btnToAdd.cssClass);
-                    button.textContent = btnToAdd.textContent;
-                    button.onclick = btnToAdd.onClick;
-                    vidBox.appendChild(button);
-                });
+                const button = document.createElement("button");
+                button.classList.add("nah-btn");
+                button.classList.add(btnToAdd.cssClass);
+                button.textContent = btnToAdd.textContent;
+                button.onclick = btnToAdd.onClick;
+                vidBox.appendChild(button);
+            });
         }
     } catch (err) {
         console.error(err);
@@ -89,7 +104,7 @@ function actionNah(cssChildNum) {
         event.stopPropagation();
 
         // prevent popup from appearing when custom button is pressed
-        let popupWrapper = document.querySelector("ytd-popup-container");
+        const popupWrapper = document.querySelector("ytd-popup-container");
         popupWrapper.classList.add("hide-popup");
         event.target.parentElement
             .querySelector("#menu #button yt-icon")
@@ -110,7 +125,7 @@ function actionNah(cssChildNum) {
                 logger(textContent);
             }
 
-            let notInterestedBtn = popupWrapper.querySelector(
+            const notInterestedBtn = popupWrapper.querySelector(
                 `ytd-menu-popup-renderer #items > ytd-menu-service-item-renderer:nth-child(${cssChildNum})`
             );
 
