@@ -58,12 +58,16 @@ async function logger(...data) {
 
 async function addNahBtns(videoBoxSelector) {
     const nahButton = {
-        onClick: actionNah(6), // not interested is 6th in popup menu list
+        onClick: actionNah(
+            "M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zM3 12c0 2.31.87 4.41 2.29 6L18 5.29C16.41 3.87 14.31 3 12 3c-4.97 0-9 4.03-9 9zm15.71-6L6 18.71C7.59 20.13 9.69 21 12 21c4.97 0 9-4.03 9-9 0-2.31-.87-4.41-2.29-6z"
+        ),
         cssClass: "btn-top",
         textContent: "👎",
     };
     const channelButton = {
-        onClick: actionNah(7), // dont recommend channel is 7th in popup menu list
+        onClick: actionNah(
+            "M12 3c-4.96 0-9 4.04-9 9s4.04 9 9 9 9-4.04 9-9-4.04-9-9-9m0-1c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm7 11H5v-2h14v2z"
+        ),
         cssClass: "btn-bottom",
         textContent: "❌",
     };
@@ -98,7 +102,7 @@ async function addNahBtns(videoBoxSelector) {
     }
 }
 
-function actionNah(cssChildNum) {
+function actionNah(svgPath) {
     return (event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -110,23 +114,46 @@ function actionNah(cssChildNum) {
             .querySelector("#menu #button yt-icon")
             .click();
 
-        // ..wait for popup to render
-        setTimeout(function () {
-            // show list of nodes in popup for debugging
+        // ..wait for popup to render using artificial delay
+        setTimeout(async () => {
             const popupNode = popupWrapper.querySelector(
                 `ytd-menu-popup-renderer #items`
             );
-            if (popupNode) {
-                const textContent = Array.from(popupNode.childNodes).map(
-                    (childNode) => {
-                        return childNode.textContent.trim();
-                    }
+            if (!popupNode) {
+                logger("Could not find popup menu in DOM");
+                return;
+            }
+            let buttonChildIndex;
+            const popupMenuChildren = Array.from(popupNode.children);
+            for (let i = 0; i < popupMenuChildren.length; i++) {
+                const childNode = popupMenuChildren[i];
+                const svgCandidate = childNode.querySelector(
+                    "ytd-menu-service-item-renderer tp-yt-paper-item yt-icon span div svg"
                 );
-                logger(textContent);
+                logger(childNode);
+                logger(childNode.textContent.trim());
+                logger(svgCandidate);
+                if (!svgCandidate) continue;
+                logger(svgCandidate.innerHTML);
+                const isCandidateCorrectButton = svgCandidate.innerHTML
+                    .trim()
+                    .indexOf(svgPath);
+                if (isCandidateCorrectButton !== -1) {
+                    logger(`found button at index ${i}`);
+                    buttonChildIndex = i;
+                    break;
+                }
             }
 
+            if (!buttonChildIndex) {
+                logger("Could not find button in DOM");
+                return;
+            }
+            // nth-child css selector index is 1-based
+            buttonChildIndex += 1;
+
             const notInterestedBtn = popupWrapper.querySelector(
-                `ytd-menu-popup-renderer #items > ytd-menu-service-item-renderer:nth-child(${cssChildNum})`
+                `ytd-menu-popup-renderer #items > ytd-menu-service-item-renderer:nth-child(${buttonChildIndex})`
             );
 
             if (notInterestedBtn) {
@@ -134,7 +161,7 @@ function actionNah(cssChildNum) {
                 notInterestedBtn.click();
             }
             popupWrapper.classList.remove("hide-popup");
-        }, 10);
+        }, 100);
 
         return false;
     };
