@@ -100,11 +100,6 @@ async function addButtons(videoBoxSelector) {
             // Ensure the container has relative positioning
             videoBox.style.position = "relative";
 
-            // Find the thumbnail area as a reference point
-            const thumbnailElement = videoBox.querySelector('#thumbnail') || 
-                                    videoBox.querySelector('ytd-thumbnail') ||
-                                    videoBox;
-
             // Create and append the button
             const button = document.createElement("button");
             button.classList.add("watched-button");
