@@ -4,11 +4,6 @@ const storage =
 
 document.getElementById("save").addEventListener("click", () => {
     const isDebuggingEnabled = document.getElementById("debug-mode").checked;
-    const shouldHideNahButton =
-        document.getElementById("hide-nah-button").checked;
-    const shouldHideChannelButton = document.getElementById(
-        "hide-channel-button"
-    ).checked;
 
     // Save the checkbox value in storage
     storage.sync.set(
@@ -26,15 +21,5 @@ document.addEventListener("DOMContentLoaded", () => {
     storage.sync.get("isDebuggingEnabled", (data) => {
         document.getElementById("debug-mode").checked =
             data.isDebuggingEnabled || false;
-    });
-
-    storage.sync.get("shouldHideNahButton", (data) => {
-        document.getElementById("hide-nah-button").checked =
-            data.shouldHideNahButton || false;
-    });
-
-    storage.sync.get("shouldHideChannelButton", (data) => {
-        document.getElementById("hide-channel-button").checked =
-            data.shouldHideChannelButton || false;
     });
 });
