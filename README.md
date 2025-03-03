@@ -1,30 +1,28 @@
-# **Nah - Youtube Not Interested Button**
+# Watched! - Youtube Remove from 'Watch Later' Button
 
-Tell Youtube in one click this video or channel is not interesting.
+Make the Watch Later list a bit easier to use.
 
-[Install for Firefox](https://addons.mozilla.org/en-US/firefox/addon/youtube-not-interested-button/)  
-[Install for Chrome](https://chromewebstore.google.com/detail/nah/jlceoenebonplbmbdmpcmjipmnhbpema)
+## Before: 2 steps
 
-## **Before: 2 steps**
+<img src="img/before.png" width=300 />
 
-<img src="img/before.jpg" width=300 />
+## After: 1 step
 
-## **after: 1 step**
-
-<img src="img/after.jpg" width=300 />
+<img src="img/after.png" width=300 />
 
 ## Manual Install
 
-### Firefox
+### Edge
 
-1. Zip the contents of the `src/` folder
-1. Navigate to `about:debugging#/runtime/this-firefox`
-1. Click `Load Temporary Add-on...` button
-1. Select the `zip` file created in step 1
+1. Download repo
+2. Unzip
+3. Go to `edge://extensions/`
+4. Enable Developer Mode
+5. Click `Load Unpacked`
+6. Select the `src` folder
 
-### Chrome
+### Other browsers
+I dunno, sorry. 
 
-1. Checkout the `master-chrome` branch
-1. Navigate to chrome://extensions
-1. Click Load unpacked button
-1. Select src/ folder path
+Maybe the docs from the original author of the package I used can help you:
+https://github.com/lozog/not-interested-youtube
