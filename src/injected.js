@@ -74,7 +74,8 @@ async function addButtons(videoBoxSelector) {
     logger("Adding buttons. . .")
     const watchedButton = {
         onClick: actionWatched(
-            "M11 17H9V8h2v9zm4-9h-2v9h2V8zm4-4v1h-1v16H6V5H5V4h4V3h6v1h4zm-2 1H7v15h10V5z"
+            "M11 17H9V8h2v9zm4-9h-2v9h2V8zm4-4v1h-1v16H6V5H5V4h4V3h6v1h4zm-2 1H7v15h10V5z",
+            videoBoxSelector
         ),
         cssClass: "btn-top",
         svgPath: "M11 17H9V8h2v9zm4-9h-2v9h2V8zm4-4v1h-1v16H6V5H5V4h4V3h6v1h4zm-2 1H7v15h10V5z",
@@ -131,17 +132,33 @@ async function addButtons(videoBoxSelector) {
     }
 }
 
-function actionWatched(svgPath) {
+function actionWatched(svgPath, videoSelector) {
     return (event) => {
         event.preventDefault();
         event.stopPropagation();
 
+        // Find the actual button element regardless of where inside it was clicked
+        const buttonElement = event.target.closest('.watched-button');
+        if (!buttonElement) return false;
+
         // prevent popup from appearing when custom button is pressed
         const popupWrapper = document.querySelector("ytd-popup-container");
         popupWrapper.classList.add("hide-popup");
-        event.target.parentElement
-            .querySelector("#menu #button yt-icon")
-            .click();
+        
+        // Find the video container and then the menu button
+        const videoContainer = buttonElement.closest(videoSelector);
+        if (!videoContainer) {
+            logger("Could not find video container");
+            return false;
+        }
+        
+        const menuButton = videoContainer.querySelector("#menu #button yt-icon");
+        if (!menuButton) {
+            logger("Could not find menu button");
+            return false;
+        }
+        
+        menuButton.click();
 
         // ..wait for popup to render using artificial delay
         setTimeout(async () => {
