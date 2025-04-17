@@ -1,19 +1,7 @@
-// browser compatibility - MUST BE AT THE TOP
-let storage;
-try {
-    storage = typeof browser !== "undefined" ? browser.storage : chrome.storage;
-} catch (err) {
-    console.error("Failed to initialize storage", err);
-}
+import { getFromStorage, setInStorage, initializeStorage } from './storage_utilities.js';
 
-// Initialize storage with default values if needed
-storage.sync.get("isDebuggingEnabled", (result) => {
-    if (result.isDebuggingEnabled === undefined) {
-        storage.sync.set({ "isDebuggingEnabled": true }, () => {
-            console.log("Initialized debugging mode");
-        });
-    }
-});
+// Initialize storage
+initializeStorage();
 
 // keep running so when new videos appear, ie. on page scroll, we add button to them as well
 setInterval(() => {
