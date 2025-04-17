@@ -1,4 +1,4 @@
-# Watched! - Youtube Remove from 'Watch Later' Button
+# Watched! - Buttons to remove videos from 'Watch Later' playlist
 
 Make the Watch Later list a bit easier to use.
 
@@ -25,4 +25,8 @@ Make the Watch Later list a bit easier to use.
 I dunno, sorry. 
 
 Maybe the docs from the original author of the package I used can help you:
+https://github.com/lozog/not-interested-youtube
+
+## Credits!!
+Based on a similar repository:
 https://github.com/lozog/not-interested-youtube
