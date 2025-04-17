@@ -6,8 +6,7 @@
     "content_scripts": [
         {
             "matches": ["https://*.youtube.com/*"],
-            "js": ["watch_later.js"],
-            "type": "module"
+            "js": ["watch_later.js"]
         }
     ],
     "options_ui": {
@@ -16,7 +15,7 @@
     "permissions": ["storage"],
     "web_accessible_resources": [
         {
-            "resources": ["storage_utilities.js"],
+            "resources": ["storage_utilities.js", "watch_later.js"],
             "matches": ["https://*.youtube.com/*"]
         }
     ]
