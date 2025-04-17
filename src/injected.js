@@ -97,9 +97,26 @@ async function addButtons(videoBoxSelector) {
             button.classList.add("watched-button");
             button.classList.add(watchedButton.cssClass);
             
-            // Append SVG instead of using textContent
+            // Create YouTube-style icon container
+            const iconSpan = document.createElement("span");
+            iconSpan.className = "yt-icon-shape style-scope yt-icon yt-spec-icon-shape";
+            
+            // Create div container with specified styles
+            const iconDiv = document.createElement("div");
+            iconDiv.style.width = "100%";
+            iconDiv.style.height = "100%";
+            iconDiv.style.display = "block";
+            iconDiv.style.fill = "currentcolor";
+            
+            // Append SVG to the div
             const svg = createSvgElement(watchedButton.svgPath);
-            button.appendChild(svg);
+            iconDiv.appendChild(svg);
+            
+            // Add the div to the span
+            iconSpan.appendChild(iconDiv);
+            
+            // Add the icon span to the button
+            button.appendChild(iconSpan);
             
             button.onclick = watchedButton.onClick;
             
