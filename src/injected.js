@@ -13,7 +13,7 @@ const styleEl = document.createElement('style');
 styleEl.textContent = `
     .watched-button {
         position: absolute;
-        right: 25px;
+        right: 35px;
         background: none;
         border: none;
         cursor: pointer;
