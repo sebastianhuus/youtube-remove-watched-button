@@ -36,6 +36,22 @@ const baseStyles = `
 </style>`;
 document.head.insertAdjacentHTML("beforeend", baseStyles);
 
+// Helper function to create SVG element with given path
+function createSvgElement(pathD) {
+    const svgNS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(svgNS, "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("width", "24");
+    svg.setAttribute("height", "24");
+    svg.style.fill = "currentColor";
+    
+    const path = document.createElementNS(svgNS, "path");
+    path.setAttribute("d", pathD);
+    svg.appendChild(path);
+    
+    return svg;
+}
+
 async function logger(...data) {
     const isDebuggingEnabled = await getFromStorage("isDebuggingEnabled");
     if (isDebuggingEnabled) {
@@ -52,7 +68,7 @@ async function addButtons(videoBoxSelector) {
             "M11 17H9V8h2v9zm4-9h-2v9h2V8zm4-4v1h-1v16H6V5H5V4h4V3h6v1h4zm-2 1H7v15h10V5z"
         ),
         cssClass: "btn-top",
-        textContent: "✅",
+        svgPath: "M11 17H9V8h2v9zm4-9h-2v9h2V8zm4-4v1h-1v16H6V5H5V4h4V3h6v1h4zm-2 1H7v15h10V5z",
     };
     const buttonsToAdd = [watchedButton];
 
@@ -71,7 +87,11 @@ async function addButtons(videoBoxSelector) {
             const button = document.createElement("button");
             button.classList.add("watched-button");
             button.classList.add(watchedButton.cssClass);
-            button.textContent = watchedButton.textContent;
+            
+            // Append SVG instead of using textContent
+            const svg = createSvgElement(watchedButton.svgPath);
+            button.appendChild(svg);
+            
             button.onclick = watchedButton.onClick;
             
             // Add the button to the container
