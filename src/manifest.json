@@ -6,11 +6,18 @@
     "content_scripts": [
         {
             "matches": ["https://*.youtube.com/*"],
-            "js": ["watch_later.js"]
+            "js": ["watch_later.js"],
+            "type": "module"
         }
     ],
     "options_ui": {
         "page": "options.html"
     },
-    "permissions": ["storage"]
+    "permissions": ["storage"],
+    "web_accessible_resources": [
+        {
+            "resources": ["storage_utilities.js"],
+            "matches": ["https://*.youtube.com/*"]
+        }
+    ]
 }
