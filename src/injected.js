@@ -35,7 +35,7 @@ styleEl.textContent = `
     }
 
     .btn-top {
-        top: 45px;
+        top: 47px;
     }
 
     .hide-popup {
