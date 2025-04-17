@@ -8,8 +8,9 @@ setInterval(() => {
     addButtons("ytd-playlist-video-renderer");
 }, 2000);
 
-const baseStyles = `
-<style>
+// Create styles using DOM methods instead of insertAdjacentHTML
+const styleEl = document.createElement('style');
+styleEl.textContent = `
     .watched-button {
         position: absolute;
         right: 25px;
@@ -20,9 +21,17 @@ const baseStyles = `
         z-index: 1000;  /* Ensure buttons appear above other elements */
         font-size: 20px;  /* Make buttons more visible */
         padding: 5px;
+        color: var(--yt-spec-text-primary, #fff);  /* Use YouTube's text color variables */
     }
     .watched-button:hover {
         opacity: 1;
+    }
+    
+    .watched-button svg {
+        fill: currentColor;  /* Inherit color from parent */
+        width: 100%;
+        height: 100%;
+        display: block;
     }
 
     .btn-top {
@@ -33,8 +42,8 @@ const baseStyles = `
         opacity: 0;
         display: none;
     }
-</style>`;
-document.head.insertAdjacentHTML("beforeend", baseStyles);
+`;
+document.head.appendChild(styleEl);
 
 // Helper function to create SVG element with given path
 function createSvgElement(pathD) {
@@ -43,8 +52,8 @@ function createSvgElement(pathD) {
     svg.setAttribute("viewBox", "0 0 24 24");
     svg.setAttribute("width", "24");
     svg.setAttribute("height", "24");
-    svg.style.fill = "currentColor";
     
+    // Don't set inline style, use CSS classes instead
     const path = document.createElementNS(svgNS, "path");
     path.setAttribute("d", pathD);
     svg.appendChild(path);
