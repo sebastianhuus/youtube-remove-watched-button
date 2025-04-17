@@ -45,6 +45,40 @@ styleEl.textContent = `
 `;
 document.head.appendChild(styleEl);
 
+// Function to hide the original "Remove from Watch later" button
+function hideOriginalWatchLaterButton() {
+    logger("Setting up observer to hide the original Watch Later button");
+    
+    // Use a mutation observer to detect when the menu appears
+    const observer = new MutationObserver((mutations) => {
+        const popupWrapper = document.querySelector("ytd-popup-container");
+        if (!popupWrapper) return;
+        
+        const menuItems = popupWrapper.querySelectorAll('ytd-menu-service-item-renderer');
+        
+        menuItems.forEach(item => {
+            const formattedString = item.querySelector('yt-formatted-string');
+            
+            if (formattedString && 
+                formattedString.textContent.includes('Remove from') && 
+                formattedString.textContent.includes('Watch later')) {
+                // Hide the button
+                logger("Found and hid original Watch Later button");
+                item.style.display = 'none';
+            }
+        });
+    });
+    
+    // Start observing the document with the configured parameters
+    observer.observe(document.body, { 
+        childList: true, 
+        subtree: true 
+    });
+}
+
+// Call the function to hide the original button
+hideOriginalWatchLaterButton();
+
 // Helper function to create SVG element with given path
 function createSvgElement(pathD) {
     const svgNS = "http://www.w3.org/2000/svg";
