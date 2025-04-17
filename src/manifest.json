@@ -15,7 +15,7 @@
     "permissions": ["storage"],
     "web_accessible_resources": [
         {
-            "resources": ["storage_utilities.js", "watch_later.js"],
+            "resources": ["storage_utilities.js", "injected.js"],
             "matches": ["https://*.youtube.com/*"]
         }
     ]
