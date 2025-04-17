@@ -5,27 +5,6 @@ try {
 } catch (err) {
     console.error("Failed to initialize storage", err);
 }
-// browser compatibility
-storage =
-    typeof browser !== "undefined" ? browser.storage : chrome.storage;
-
-    function getFromStorage(key) {
-        return new Promise((resolve, reject) => {
-            try {
-                storage.sync.get(key, (result) => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    } else {
-                        // Return default value if the key doesn't exist
-                        resolve(result[key] !== undefined ? result[key] : false);
-                    }
-                });
-            } catch (err) {
-                console.error("Storage error:", err);
-                resolve(false); // Fallback default
-            }
-        });
-    }
 
 // Initialize storage with default values if needed
 storage.sync.get("isDebuggingEnabled", (result) => {
